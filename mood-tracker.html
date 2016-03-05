@@ -27,8 +27,15 @@
 </body>
 
 <template name="moodReport">
-    <li>{{formatDate createdAt}}: {{mood}}</li>
-     <p>
-       {{notes}}
-     </p>
+    {{#if editing}}
+    <li>{{formatDate createdAt}}:<input type="text" name="mood" value="{{mood}}" class="savable"></li>
+    {{else}}
+    <li>{{formatDate createdAt}}: <span class="editable">{{mood}}</span></li>
+    {{/if}}
+
+    {{#if editing2}}
+      <textarea name="notes" class="savable2">{{notes}}</textarea>
+     {{else}}
+     <p class="editable2">{{notes}}</p>
+     {{/if}}
 </template>

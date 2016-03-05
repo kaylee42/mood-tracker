@@ -3,7 +3,7 @@ MoodReports = new Mongo.Collection("moodReports");
 if (Meteor.isClient){
    Template.body.helpers({
      moodReports: function(){
-       return MoodReports.find({});
+       return MoodReports.find({}, {sort: {createdAt: -1}});
      }
    });
 
@@ -20,13 +20,43 @@ if (Meteor.isClient){
        });
 
        document.getElementById("mood-report-form").reset();
-      
+
+     }
+   });
+   Template.moodReport.events({
+     "dblclick .editable": function(event, target){
+       return Session.set("target" + target.data._id, true);
+     },
+     "dblclick .editable2": function(event, target){
+       return Session.set("target2" + target.data._id, true);
+     },
+     "keypress .savable": function(event, target){
+       if(event.keyCode == 13){
+         MoodReports.update(this._id, {
+           $set: {mood: event.currentTarget.value}
+         });
+         return Session.set("target" + target.data._id, false);
+       }
+     },
+     "keypress .savable2": function(event, target){
+       if(event.keyCode == 13){
+         MoodReports.update(this._id, {
+           $set: {notes: event.currentTarget.value}
+         });
+         return Session.set("target2" + target.data._id, false);
+       }
      }
    });
 
    Template.moodReport.helpers({
      formatDate: function(date){
        return `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`;
+     },
+     editing: function(){
+       return Session.get("target" + this._id);
+     },
+     editing2: function(){
+       return Session.get("target2" + this._id);
      }
    });
 }

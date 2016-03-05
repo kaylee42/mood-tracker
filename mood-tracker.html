@@ -1,0 +1,34 @@
+<head>
+  <title>Mood Tracker</title>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+
+    <h1>Mood Tracker</h1>
+
+  </header>
+  <div class="mood-form">
+    <form class="new-mood-report" id="mood-report-form">
+      <input type="text" name="mood" placeholder="Current mood"><br>
+      <textarea form="mood-report-form" name="notes" rows="8" cols="40" placeholder="Notes"></textarea><br>
+      <input type="submit" name="submit" value="Add Mood Report">
+    </form>
+  </div>
+  <ul>
+
+    {{#each moodReports}}
+      {{> moodReport}}
+    {{/each}}
+  </ul>
+  </div>
+
+</body>
+
+<template name="moodReport">
+    <li>{{formatDate createdAt}}: {{mood}}</li>
+     <p>
+       {{notes}}
+     </p>
+</template>
